@@ -14,15 +14,14 @@ from tensorflow.contrib import learn
 
 # Data loading params
 tf.flags.DEFINE_float("dev_sample_percentage", .1, "Percentage of the training data to use for validation")
-tf.flags.DEFINE_string("data_file", "./cmm_path/cmm_paths.txt", "Data source.")
+tf.flags.DEFINE_string("data_file", "./path/train.txt", "Data source.")
 tf.flags.DEFINE_string("kinds", 0, "The kind of label.")
-tf.flags.DEFINE_string("max_data_length", 2000, "The max length of data.")
 # Model Hyperparameters
 tf.flags.DEFINE_integer("embedding_dim", 6, "Dimensionality of character embedding (default: 128)")
-tf.flags.DEFINE_string("filter_sizes", "7,8,9", "Comma-separated filter sizes (default: '3,4,5')")
+tf.flags.DEFINE_string("filter_sizes", "5,6,7", "Comma-separated filter sizes (default: '3,4,5')")
 tf.flags.DEFINE_integer("num_filters", 64, "Number of filters per filter size (default: 128)")
-tf.flags.DEFINE_float("dropout_keep_prob", 0.6, "Dropout keep probability (default: 0.5)")
-tf.flags.DEFINE_float("l2_reg_lambda", 8.0, "L2 regularization lambda (default: 0.0)")
+tf.flags.DEFINE_float("dropout_keep_prob", 0.7, "Dropout keep probability (default: 0.5)")
+tf.flags.DEFINE_float("l2_reg_lambda", 10.0, "L2 regularization lambda (default: 0.0)")
 
 # Training parameters
 tf.flags.DEFINE_integer("batch_size", 64, "Batch Size (default: 64)")
@@ -61,11 +60,12 @@ y = np.array(y)
 # Build vocabulary
 max_document_length = max([len(x) for x in x_text])
 # vocab_processor = learn.preprocessing.VocabularyProcessor(max_document_length)
-x = np.array(data_helpers.fit_transform(x_text,FLAGS.max_data_length))
+x = np.array(data_helpers.fit_transform(x_text,max_document_length))
 
 # Randomly shuffle data
 np.random.seed(10)
 shuffle_indices = np.random.permutation(np.arange(len(y)))
+
 x_shuffled = x[shuffle_indices,:]
 y_shuffled = y[shuffle_indices]
 
@@ -116,7 +116,7 @@ with tf.Graph().as_default():
 
         # Output directory for models and summaries
         timestamp = str(int(time.time()))
-        out_dir = os.path.abspath(os.path.join(os.path.curdir, "runs_cmm_path", categoryName))
+        out_dir = os.path.abspath(os.path.join(os.path.curdir, "runs_"+FLAGS.data_file.split('/')[1], categoryName))
         print("Writing to {}\n".format(out_dir))
 
         # Summaries for loss and accuracy
@@ -169,11 +169,11 @@ with tf.Graph().as_default():
               cnn.input_y: y_batch,
               cnn.dropout_keep_prob: 1.0
             }
-            step, summaries, loss, accuracy = sess.run(
-                [global_step, dev_summary_op, cnn.loss, cnn.accuracy],
+            step, summaries, loss, accuracy, recall, precision, f1_score = sess.run(
+                [global_step, dev_summary_op, cnn.loss, cnn.accuracy, cnn.recall, cnn.precision, cnn.f1_score],
                 feed_dict)
             time_str = datetime.datetime.now().isoformat()
-            print("{}: step {}, loss {:g}, acc {:g}".format(time_str, step, loss, accuracy))
+            print("{}: step {}, loss {:g}, acc {:g}, recall {:g}, f1_score {:g}, precision {:g}".format(time_str, step, loss, accuracy, recall, f1_score, precision))
             if writer:
                 writer.add_summary(summaries, step)
 
