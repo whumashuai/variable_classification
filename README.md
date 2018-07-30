@@ -15,8 +15,9 @@
 
 * Print parameters:
 
-```
+```Python
 ./train.py --help
+```
 ```
 optional arguments:
   -h, --help            show this help message and exit
@@ -58,16 +59,17 @@ optional arguments:
                         Log placement of ops on devices
 						
   --nolog_device_placement
-  
+  ```
 
-Train:
+#Train:
 
-
+```Python
 ./train.py
+```
+#Evaluating
 
-Evaluating
-
-
+```
 ./eval.py --eval_train --checkpoint_dir="./runs/checkpoints/"
+```
 
-Replace the checkpoint dir with the output from the training. To use your own data, change the eval.py script to load your data.
+		Replace the checkpoint dir with the output from the training. To use your own data, change the eval.py script to load your data.
