@@ -72,4 +72,4 @@ optional arguments:
 ./eval.py --eval_train --checkpoint_dir="./runs/checkpoints/"
 ```
 		
-Replace the checkpoint dir with the output from the training. To use your own data, change the eval.py script to load your data.
+		Replace the checkpoint dir with the output from the training. To use your own data, change the eval.py script to load your data.
