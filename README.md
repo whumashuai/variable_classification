@@ -1,22 +1,23 @@
 # variable_classification
 
-Requirements
+#Requirements
 
 
-Python 3
+* Python 3
 
-Tensorflow > 0.12
+* Tensorflow > 0.12
 
-Numpy
-
-
-Training
+* Numpy
 
 
-Print parameters:
+#Training
 
 
+* Print parameters:
+
+```
 ./train.py --help
+```
 optional arguments:
   -h, --help            show this help message and exit
   
