@@ -1,0 +1,6 @@
+model_checkpoint_path: "E:\\variable_classification\\variable_classification\\runs_clang_path\\std_vector\\checkpoints\\model-6000"
+all_model_checkpoint_paths: "E:\\variable_classification\\variable_classification\\runs_clang_path\\std_vector\\checkpoints\\model-5600"
+all_model_checkpoint_paths: "E:\\variable_classification\\variable_classification\\runs_clang_path\\std_vector\\checkpoints\\model-5700"
+all_model_checkpoint_paths: "E:\\variable_classification\\variable_classification\\runs_clang_path\\std_vector\\checkpoints\\model-5800"
+all_model_checkpoint_paths: "E:\\variable_classification\\variable_classification\\runs_clang_path\\std_vector\\checkpoints\\model-5900"
+all_model_checkpoint_paths: "E:\\variable_classification\\variable_classification\\runs_clang_path\\std_vector\\checkpoints\\model-6000"
