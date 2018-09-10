@@ -3,11 +3,12 @@ import random
 import re
 import itertools
 from collections import Counter
+import remove_null
 
-def fit_transform(x_test, max_document_length):
+def fit_transform(x_test, max_document_length, embedding_dim):
     for x in x_test:
         while len(x) < max_document_length :
-            add = [0 for i in range(6)]
+            add = [0 for i in range(embedding_dim)]
             x.append(add)
     return x_test
 
@@ -90,14 +91,25 @@ def depart_data(data_file):
     random.shuffle(examples)
     eval_sample_index = -1 * int(0.1 * float(len(examples)))
     data = examples[eval_sample_index:]
-    file = './' + data_file.split('/')[1] + '/' + data_file.split('/')[2] + '/'
-    dev_file = file + 'dev.txt'
+    file = data_file.split('.')[0]
+    dev_file = file + '_dev.csv'
     open(dev_file, "w", encoding='utf-8').writelines(data)
     data = examples[:eval_sample_index]
-    train_file = file + 'train.txt'
+    train_file = file + '_train.csv'
     open(train_file, "w", encoding='utf-8').writelines(data)
     return train_file, dev_file
 
+
+def traceHelper(data_file):
+    print(data_file)
+    output = data_file +'.csv'
+    examples = open(data_file, 'r', encoding='utf-8').readlines()
+    for line in examples:
+        example = list(filter(len, map(str.strip, line.split(','))))
+        if len(example) < 2:
+            continue
+        open(output, 'a').write(",".join(example[1:]) + ',' + example[0] + '\n')
+    return output
 
 def batch_iter(data, batch_size, num_epochs, shuffle=True):
     """
@@ -120,17 +132,21 @@ def batch_iter(data, batch_size, num_epochs, shuffle=True):
 
 
 if __name__ == '__main__':
-    data_file = './path/path_bitcoin/bitcoind.no_slice.txt'
+    #default path="F:\variable_classification\data\opencv\opencv_test_core.traces"
+    #data_file = 'F:\\variable_classification\\data\\opencv\\opencv_test_core.traces'
+    #data_file = traceHelper(data_file)
+    #print(data_file)
     #depart_data(data_file)
-
-    [x_test, y, category] = load_data_and_labels(data_file)
+    [x_test, y, category] = load_data_and_labels('./data/opencv/opencv_test_core.traces.csv')
+    print(len(x_test))
+    print(len(y))
     max_document_length = max([len(x) for x in x_test])
     print(max_document_length)
     print(category)
+    print(x_test[0])
 
     for label in category:
         print("%s,%d"%(label,y.count(label)))
-
 
 
 

@@ -75,8 +75,8 @@ def process3(input,output1,output2):
             if len(example) < 2:
                 continue
             open(output2, 'a').write(",".join(example[1:]) + ',' + example[0] + '\n')
-    output = process2(output1,output2)
-    return output
+
+
 if __name__ == '__main__':
     input = r"E:\variable_classification\variable_classification\path\path_bitcoin\bitcoind.no_slice.paths"
     output = r"E:\variable_classification\variable_classification\path\path_bitcoin\bitcoind.no_slice.txt"
